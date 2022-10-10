@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.main`
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +37,16 @@ const Container = styled.main`
 
   .section__Container {
     margin: 25px 0px;
+  }
+
+  .container__Users {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1500px;
+  }
+
+  .section__Login {
+    margin-top: 80px;
   }
 
   @media (min-width: 767px) {

@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <Container>
-      <section>
+      <section className="section__Login">
         <div className="divForm">
           <h1>Kenzie Hub</h1>
           <Form onSubmit={handleSubmit(loginApi)}>
