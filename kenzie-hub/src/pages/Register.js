@@ -90,6 +90,7 @@ const Register = () => {
                   type="text"
                   placeholder="Tsunode"
                 />
+                <p>{errors.name?.message}</p>
               </Input>
 
               <Input>
@@ -99,6 +100,7 @@ const Register = () => {
                   type="email"
                   placeholder="kenzinho@gmail.com"
                 />
+                <p>{errors.email?.message}</p>
               </Input>
 
               <Input>
@@ -108,6 +110,7 @@ const Register = () => {
                   type="password"
                   placeholder="******"
                 />
+                <p>{errors.password?.message}</p>
               </Input>
 
               <Input>
@@ -117,6 +120,7 @@ const Register = () => {
                   type="password"
                   placeholder="******"
                 />
+                <p>{errors.confirmPassword?.message}</p>
               </Input>
 
               <Input>
@@ -126,6 +130,7 @@ const Register = () => {
                   type="text"
                   placeholder="Fale sobre você"
                 />
+                <p>{errors.bio?.message}</p>
               </Input>
 
               <Input>
@@ -135,6 +140,7 @@ const Register = () => {
                   type="tel"
                   placeholder="(12)0000-0000"
                 />
+                <p>{errors.contact?.message}</p>
               </Input>
 
               <Input>
