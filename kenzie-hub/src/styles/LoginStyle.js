@@ -49,6 +49,10 @@ const Container = styled.main`
     margin-top: 80px;
   }
 
+  .box__Lottie {
+    display: none;
+  }
+
   @media (min-width: 767px) {
     .divForm h1 {
       font-size: 1.5rem;
@@ -56,6 +60,68 @@ const Container = styled.main`
 
     .headerForm button {
       font-size: 0.75rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .section__Login {
+      margin: 0;
+    }
+
+    .box__Lottie {
+      width: 450px;
+      display: block;
+
+      @keyframes animate {
+        0% {
+          background-position: -500%;
+        }
+        100% {
+          background-position: 500%;
+        }
+      }
+
+      h1 {
+        color: var(--grey-4);
+        line-height: 30px;
+
+        font-weight: 700;
+        font-size: 1.5rem;
+
+        overflow: hidden;
+        background: linear-gradient(
+          90deg,
+          var(--grey-4),
+          var(--white),
+          var(--grey-4)
+        );
+        background-repeat: no-repeat;
+        background-size: 80%;
+
+        animation: animate 3s linear infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: #0e060882;
+      }
+    }
+
+    .container__Wrap {
+      width: 100%;
+      height: 100vh;
+
+      padding: 0.5rem;
+      gap: 10rem;
+
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1 1 100%;
+      align-items: center;
+      justify-content: center;
+
+      background: linear-gradient(
+        60deg,
+        var(--color-primary) 55%,
+        var(--grey-4) 55%
+      );
     }
   }
 `;

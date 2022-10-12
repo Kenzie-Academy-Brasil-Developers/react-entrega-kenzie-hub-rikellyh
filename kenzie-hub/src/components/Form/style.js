@@ -91,6 +91,10 @@ export const Input = styled.div`
     font-weight: 400;
   }
 
+  p {
+    font-size: 0.75rem;
+  }
+
   input,
   select {
     width: 80vw;
