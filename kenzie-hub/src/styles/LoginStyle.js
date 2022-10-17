@@ -20,19 +20,22 @@ const Container = styled.main`
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 20px;
-  }
 
-  .headerForm button {
-    width: 4.97rem;
-    height: 2rem;
+    a {
+      width: 4.97rem;
+      height: 2rem;
 
-    font-weight: 600;
-    font-size: 0.6rem;
+      font-weight: 600;
+      font-size: 0.6rem;
 
-    border: none;
-    border-radius: 4px;
-    color: var(--grey-0);
-    background-color: var(--grey-3);
+      padding-top: 10px;
+      text-align: center;
+
+      border: none;
+      border-radius: 4px;
+      color: var(--grey-0);
+      background-color: var(--grey-3);
+    }
   }
 
   .section__Container {

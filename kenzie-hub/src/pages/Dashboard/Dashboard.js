@@ -1,18 +1,17 @@
-import Header from "../components/Header/style";
-import Container from "../styles/LoginStyle";
-import { useNavigate } from "react-router-dom";
-import Card from "../components/Card/style";
+import Header from "../../components/Header/style";
+import Container from "../../styles/LoginStyle";
+import { Link } from "react-router-dom";
+import Card from "../../components/Card/style";
 
 const Dashboard = () => {
-  const backLogin = useNavigate();
+  console.log("dashboard");
+
   return (
     <>
       <Header>
         <div>
           <h1>Kenzie Hub</h1>
-          <button type="button" onClick={() => backLogin("/")}>
-            Sair
-          </button>
+          <Link to={"/"}>Sair</Link>
         </div>
       </Header>
       <Container>

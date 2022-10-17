@@ -1,11 +1,12 @@
-import GlobalStyle from "./styles/Globalstyle";
 import RoutesMain from "./routes";
-import { ToastContainer } from "react-toastify";
+import GlobalStyle from "./styles/Globalstyle";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <GlobalStyle />
       <ToastContainer
         position="top-right"
@@ -20,7 +21,7 @@ function App() {
         theme="dark"
       />
       <RoutesMain />
-    </>
+    </AuthProvider>
   );
 }
 
