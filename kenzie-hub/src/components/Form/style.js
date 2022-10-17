@@ -5,6 +5,23 @@ export const Form = styled.form`
   color: var(--grey-0);
   border-radius: 3.2px;
 
+  .registerLink {
+    border: 1.2px solid var(--grey-1);
+    background-color: var(--grey-1);
+    color: var(--grey-0);
+
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.8rem;
+
+    text-align: center;
+    padding-top: 13px;
+
+    width: 80vw;
+    height: 2.5rem;
+    max-width: 20.5rem;
+  }
+
   .flexForm {
     margin: auto;
     padding: 18px;
@@ -50,20 +67,6 @@ export const Form = styled.form`
 
     text-align: center;
     color: var(--grey-1);
-  }
-
-  .registerBtn {
-    width: 80vw;
-    height: 2.5rem;
-    max-width: 20.5rem;
-
-    border: 1.2px solid var(--grey-1);
-    background-color: var(--grey-1);
-    color: var(--grey-0);
-    border-radius: 4px;
-
-    font-weight: 500;
-    font-size: 0.8rem;
   }
 
   @media (min-width: 767px) {

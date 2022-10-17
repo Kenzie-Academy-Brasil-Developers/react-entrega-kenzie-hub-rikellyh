@@ -23,12 +23,15 @@ const Header = styled.header`
     color: var(--color-primary);
   }
 
-  button {
+  a {
     width: 4.97rem;
     height: 2rem;
 
     font-weight: 600;
     font-size: 0.6rem;
+
+    padding-top: 10px;
+    text-align: center;
 
     border: none;
     border-radius: 4px;

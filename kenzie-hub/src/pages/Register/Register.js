@@ -1,72 +1,21 @@
-import api from "../services/api";
-import Container from "../styles/LoginStyle";
-import { Button, Form, Input } from "../components/Form/style";
-import * as yup from "yup";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import Container from "../../styles/LoginStyle";
+import { useContext } from "react";
+import { Button, Form, Input } from "../../components/Form/style";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { registerValidation } from "../../validations/register";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Register = () => {
-  const backPage = useNavigate();
-
-  const schema = yup.object({
-    name: yup.string().required("Nome é obrigatório"),
-    email: yup
-      .string()
-      .email("Deve ser um e-mail válido")
-      .required("Email é obrigatório"),
-    password: yup
-      .string()
-      .min(8, "No minimo 8 caracteres")
-      .required("Senha é obrigatória"),
-    confirmPassword: yup
-      .string()
-      .oneOf(
-        [yup.ref("password")],
-        "Confirmação de senha deve ser igual a senha"
-      ),
-    bio: yup
-      .string()
-      .max(150, "A descrição precisa ter menos de 150 caracteres")
-      .required("Bio é obrigatória"),
-    contact: yup.string().required("Contato é obrigatório"),
-    course_module: yup.string(),
-  });
-
-  const registerSucess = () => {
-    toast.success("Conta criada com sucesso!");
-    setTimeout(() => backPage("/"), 4500);
-  };
-
-  const registerApi = ({
-    name,
-    email,
-    password,
-    bio,
-    contact,
-    course_module,
-  }) => {
-    const data = {
-      name,
-      email,
-      password,
-      bio,
-      contact,
-      course_module,
-    };
-    api
-      .post("users", data)
-      .then((response) => registerSucess())
-      .catch((error) => toast.error("Ops! Algo deu errado 👀"));
-  };
+  const { registerApi } = useContext(AuthContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerValidation),
   });
 
   return (
@@ -74,9 +23,7 @@ const Register = () => {
       <section className="section__Container">
         <div className="divForm headerForm">
           <h1>Kenzie Hub</h1>
-          <button type="button" onClick={() => backPage("/")}>
-            Voltar
-          </button>
+          <Link to={"/"}>Voltar</Link>
         </div>
         <Form onSubmit={handleSubmit(registerApi)}>
           <div className="flexForm__Register">

@@ -1,52 +1,24 @@
-import { Button, Form, Input } from "../components/Form/style";
-import Container from "../styles/LoginStyle";
+import { Button, Form, Input } from "../../components/Form/style";
+import Container from "../../styles/LoginStyle";
 import lottie from "lottie-web";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import api from "../services/api";
+import { loginValidation } from "../../validations/login";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const schema = yup.object({
-    email: yup
-      .string()
-      .email("Deve ser um e-mail válido")
-      .required("Email é obrigatório"),
-    password: yup
-      .string()
-      .min(8, "No minimo 8 caracteres")
-      .required("Senha é obrigatória"),
-  });
-
-  const loginApi = (data) => {
-    api
-      .post("sessions", data)
-      .then((resp) => {
-        const { token, user } = resp.data;
-        localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
-        localStorage.setItem("@KenzieHub:user", JSON.stringify(user.id));
-
-        navigate("/dashboard");
-      })
-      .catch((error) =>
-        toast.error(
-          "Você não tem permissão para acessar este tipo de recurso ✋"
-        )
-      );
-  };
+  const { loginApi } = useContext(AuthContext);
 
   const {
     register,
     handleSubmit,
+    // eslint-disable-next-line no-unused-vars
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginValidation),
   });
 
   useEffect(() => {
@@ -55,7 +27,7 @@ const Login = () => {
       renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: require("../lottie/login-animation-code.json"),
+      animationData: require("../../lottie/login-animation-code.json"),
     });
 
     return () => instance.destroy();
@@ -89,13 +61,9 @@ const Login = () => {
                 </div>
 
                 <span>Ainda não possui uma conta?</span>
-                <button
-                  className="registerBtn"
-                  type="button"
-                  onClick={() => navigate("/register")}
-                >
+                <Link to={"/register"} className="registerLink">
                   Cadastre-se
-                </button>
+                </Link>
               </div>
             </Form>
           </div>
