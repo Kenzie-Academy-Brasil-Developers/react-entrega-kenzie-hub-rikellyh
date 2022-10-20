@@ -1,16 +1,20 @@
 import styled from "styled-components";
 
 const Header = styled.header`
-  max-width: 1500px;
-  margin: 0 auto;
-  width: 90%;
+  width: 100%;
+  position: fixed;
+  background-color: var(--grey-4);
+  box-shadow: inset 0 -1px 0 var(--grey-3);
 
-  > div {
-    margin-top: 10px;
+  > nav {
     padding: 13px;
+    max-width: 1120px;
+
+    margin: 0 auto;
+    margin-top: 10px;
 
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
   }
 
@@ -40,8 +44,6 @@ const Header = styled.header`
   }
 
   @media (min-width: 1000px) {
-    width: 80%;
-
     h1 {
       font-size: 1.5rem;
     }

@@ -1,10 +1,7 @@
 import styled from "styled-components";
 
 const Card = styled.div`
-  border-style: solid;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-color: var(--grey-3);
+  box-shadow: inset 0 -1px 0 var(--grey-3);
 
   width: 100%;
   gap: 0.625rem;
@@ -32,6 +29,10 @@ const Card = styled.div`
     align-items: center;
     flex-direction: row;
     justify-content: space-around;
+  }
+
+  @media (min-width: 800px) {
+    gap: 40rem;
   }
 `;
 

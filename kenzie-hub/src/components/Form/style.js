@@ -36,11 +36,12 @@ export const Form = styled.form`
 
   .flexForm__Register {
     width: 90vw;
-    height: 45rem;
+    height: 100%;
+    max-height: 47rem;
     max-width: 23rem;
 
     display: grid;
-    padding-top: 20px;
+    padding: 10px 0px;
     text-align: center;
   }
 
@@ -56,7 +57,7 @@ export const Form = styled.form`
 
   .section__Inputs {
     display: flex;
-    gap: 1.125rem;
+    gap: 1rem;
     align-items: center;
     flex-direction: column;
   }

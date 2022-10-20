@@ -92,11 +92,7 @@ const Register = () => {
 
               <Input>
                 <label htmlFor="course_module">Selecionar módulo</label>
-                <select
-                  {...register("course_module")}
-                  name="course_module"
-                  required
-                >
+                <select {...register("course_module")} name="course_module">
                   <option value="" disabled selected>
                     Módulo atual
                   </option>
