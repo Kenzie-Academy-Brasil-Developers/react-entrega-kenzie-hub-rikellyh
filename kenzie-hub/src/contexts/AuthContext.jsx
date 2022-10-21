@@ -7,17 +7,16 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState();
   const backPage = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    async function loadUser() {
+    (async () => {
       const token = localStorage.getItem("@KenzieHub:token");
 
-      console.log(token);
-
       if (token) {
+        setLoading(true);
         try {
           api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -25,14 +24,14 @@ export const AuthProvider = ({ children }) => {
 
           setUser(data);
         } catch (error) {
-          console.error(error);
+          localStorage.clear();
+          backPage("/");
+        } finally {
+          setLoading(false);
         }
       }
-
-      setLoading(false);
-    }
-
-    loadUser();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const registerApi = ({
@@ -64,8 +63,10 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => backPage("/"), 4500);
   };
 
-  async function loginApi(data) {
+  async function loginApi(data, setLoading) {
     try {
+      setLoading(true);
+
       const response = await api.post("sessions", data);
       const { user: userResponse, token } = response.data;
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -73,19 +74,28 @@ export const AuthProvider = ({ children }) => {
       setUser(userResponse);
 
       localStorage.setItem("@KenzieHub:token", token);
-      localStorage.setItem("@KenzieHub:user", JSON.stringify(user.id));
-
       const toNavigate = location.state?.from?.pathname || "dashboard";
       backPage(toNavigate, { replace: true });
+      localStorage.setItem("@KenzieHub:user", JSON.stringify(userResponse.id));
     } catch (error) {
       toast.error(
         "Você não tem permissão para acessar este tipo de recurso ✋"
       );
+    } finally {
+      setLoading(false);
     }
   }
 
+  const userLogout = () => {
+    setUser(null);
+    localStorage.clear();
+    backPage("/");
+  };
+
   return (
-    <AuthContext.Provider value={{ loginApi, registerApi, loading, user }}>
+    <AuthContext.Provider
+      value={{ loginApi, registerApi, loading, user, userLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );

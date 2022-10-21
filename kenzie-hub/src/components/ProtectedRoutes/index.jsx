@@ -9,7 +9,6 @@ const ProtectedRoutes = () => {
   if (loading) {
     return null;
   }
-  console.log(user);
 
   return user ? (
     <Outlet />
