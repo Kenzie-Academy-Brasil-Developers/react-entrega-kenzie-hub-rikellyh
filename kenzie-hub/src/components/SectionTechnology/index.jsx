@@ -1,22 +1,17 @@
 import SectionTechnology from "./style";
 import ReactModal from "react-modal";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { BsTrash } from "react-icons/bs";
-import { AuthContext } from "../../contexts/AuthContext";
+import { DashboardContext } from "../../contexts/DashboardContext";
 import { Button, Form, Input } from "../Form/style";
 import { AddTechnology, Modal } from "./Modal/style";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addTech } from "../../validations/modal";
 
 const BoxTechnology = () => {
-  const { user } = useContext(AuthContext);
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const { newTech, removeTech, openModal, modalIsOpen, closeModal, list } =
+    useContext(DashboardContext);
 
   const customStyles = {
     content: {
@@ -27,6 +22,14 @@ const BoxTechnology = () => {
       height: "100%",
     },
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(addTech),
+  });
 
   return (
     <SectionTechnology>
@@ -50,15 +53,16 @@ const BoxTechnology = () => {
             <h3>Cadastrar Tecnologia</h3>
             <button onClick={closeModal}>X</button>
           </AddTechnology>
-          <Form>
+          <Form onSubmit={handleSubmit(newTech)}>
             <div className="addTech-Form">
               <Input>
                 <label htmlFor="title">Nome</label>
-                <input type="text" />
+                <input type="text" {...register("title")} />
+                <p>{errors.title?.message}</p>
               </Input>
               <Input>
                 <label htmlFor="status">Selecionar status</label>
-                <select>
+                <select {...register("status")} name="status">
                   <option>Iniciante</option>
                   <option>Intermediário</option>
                   <option>Avançado</option>
@@ -70,19 +74,21 @@ const BoxTechnology = () => {
         </Modal>
       </ReactModal>
       <ul className="list__Technology">
-        {user.techs.length === 0 && (
+        {list.length === 0 && (
           <li>
             <h2>
               <em>Sem tecnologias cadastradas...</em> Até agora 🧙‍♂️
             </h2>
           </li>
         )}
-        {user.techs.map((tech, index) => (
+        {list.map((tech, index) => (
           <li key={index}>
             <p>{tech.title}</p>
             <div className="element__Trash">
               <span>{tech.status}</span>
-              <BsTrash id="remove" />
+              <div onClick={() => removeTech(tech.id)}>
+                <BsTrash id="remove" />
+              </div>
             </div>
           </li>
         ))}
