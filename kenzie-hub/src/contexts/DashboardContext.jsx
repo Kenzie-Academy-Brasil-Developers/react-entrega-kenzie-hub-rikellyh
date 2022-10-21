@@ -44,7 +44,8 @@ export const DashboardProvider = ({ children }) => {
     }
   }
 
-  function removeTech(id) {
+  async function removeTech(id) {
+    await deletTech(id);
     const update = list.filter((tech) => tech.id !== id);
     setList(update);
   }
