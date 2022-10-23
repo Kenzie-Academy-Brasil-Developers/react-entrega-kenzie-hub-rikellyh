@@ -7,6 +7,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerValidation } from "../../validations/register";
 import { AuthContext } from "../../contexts/AuthContext";
 
+export interface iRegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  bio: string;
+  contact: string;
+  course_module: string;
+}
+
 const Register = () => {
   const { registerApi } = useContext(AuthContext);
 
@@ -14,7 +24,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iRegisterFormData>({
     resolver: yupResolver(registerValidation),
   });
 

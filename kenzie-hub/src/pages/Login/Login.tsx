@@ -3,10 +3,15 @@ import Container from "../../styles/LoginStyle";
 import lottie from "lottie-web";
 import { Link } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "../../validations/login";
 import { AuthContext } from "../../contexts/AuthContext";
+
+export interface iLoginFormData {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
   const { loginApi } = useContext(AuthContext);
@@ -18,11 +23,11 @@ const Login = () => {
     // eslint-disable-next-line no-unused-vars
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<iLoginFormData>({
     resolver: yupResolver(loginValidation),
   });
 
-  const submit = (data) => {
+  const submit: SubmitHandler<iLoginFormData> = (data) => {
     loginApi(data, setLoading, () => {
       reset();
     });
@@ -30,7 +35,7 @@ const Login = () => {
 
   useEffect(() => {
     const instance = lottie.loadAnimation({
-      container: document.getElementById("lottie"),
+      container: document.getElementById("lottie") as HTMLElement,
       renderer: "svg",
       loop: true,
       autoplay: true,
