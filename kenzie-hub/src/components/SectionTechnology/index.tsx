@@ -2,18 +2,24 @@ import SectionTechnology from "./style";
 import ReactModal from "react-modal";
 import { useContext } from "react";
 import { BsTrash } from "react-icons/bs";
-import { DashboardContext } from "../../contexts/DashboardContext";
+import { DashboardContext, iList } from "../../contexts/DashboardContext";
 import { Button, Form, Input } from "../Form/style";
 import { AddTechnology, Modal } from "./Modal/style";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addTech } from "../../validations/modal";
 
-const BoxTechnology = () => {
-  const { newTech, removeTech, openModal, modalIsOpen, closeModal, list } =
-    useContext(DashboardContext);
+export interface iListProps {
+  list: iList[];
+}
 
-  const customStyles = {
+const BoxTechnology = ({ list }: iListProps) => {
+  const { newTech, removeTech } = useContext(DashboardContext);
+
+  const onRequestCloseF = (event: React.MouseEvent | React.KeyboardEvent) => {};
+  const onAfterCloseF = () => {};
+
+  const customStyles: ReactModal.Styles = {
     content: {
       position: "fixed",
       top: "0",
@@ -27,7 +33,7 @@ const BoxTechnology = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iList>({
     resolver: yupResolver(addTech),
   });
 
@@ -35,13 +41,13 @@ const BoxTechnology = () => {
     <SectionTechnology>
       <div className="add__Technology">
         <h2>Tecnologias</h2>
-        <button onClick={openModal} type="button">
+        <button onClick={onAfterCloseF} type="button">
           +
         </button>
       </div>
       <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        isOpen={true}
+        onRequestClose={onRequestCloseF}
         contentLabel="Example Modal"
         overlayClassName="modal-overlay"
         className="modal__Form"
@@ -51,7 +57,7 @@ const BoxTechnology = () => {
         <Modal>
           <AddTechnology>
             <h3>Cadastrar Tecnologia</h3>
-            <button onClick={closeModal}>X</button>
+            <button onClick={onRequestCloseF}>X</button>
           </AddTechnology>
           <Form onSubmit={handleSubmit(newTech)}>
             <div className="addTech-Form">

@@ -2,35 +2,35 @@ import { Button, Form, Input } from "../../components/Form/style";
 import Container from "../../styles/LoginStyle";
 import lottie from "lottie-web";
 import { Link } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useContext } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "../../validations/login";
 import { AuthContext } from "../../contexts/AuthContext";
 
+export interface iLoginFormData {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
-  const { loginApi } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const { loginApi, loading } = useContext(AuthContext);
 
   const {
     register,
     handleSubmit,
-    // eslint-disable-next-line no-unused-vars
-    reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<iLoginFormData>({
     resolver: yupResolver(loginValidation),
   });
 
-  const submit = (data) => {
-    loginApi(data, setLoading, () => {
-      reset();
-    });
+  const submit: SubmitHandler<iLoginFormData> = (data) => {
+    loginApi(data);
   };
 
   useEffect(() => {
     const instance = lottie.loadAnimation({
-      container: document.getElementById("lottie"),
+      container: document.getElementById("lottie") as HTMLElement,
       renderer: "svg",
       loop: true,
       autoplay: true,

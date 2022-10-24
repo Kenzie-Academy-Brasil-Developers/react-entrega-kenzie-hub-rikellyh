@@ -5,9 +5,11 @@ import Card from "../../components/Card/style";
 import BoxTechnology from "../../components/SectionTechnology";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 const Dashboard = () => {
   const { user, userLogout } = useContext(AuthContext);
+  const { list } = useContext(DashboardContext);
 
   return (
     <>
@@ -22,10 +24,10 @@ const Dashboard = () => {
       <Container>
         <section className="container__Users">
           <Card>
-            <h1>Olá, {user.name}</h1>
-            <span>{user.course_module}</span>
+            <h1>Olá, {user?.name}</h1>
+            <span>{user?.course_module}</span>
           </Card>
-          <BoxTechnology />
+          <BoxTechnology list={list} />
         </section>
       </Container>
     </>
