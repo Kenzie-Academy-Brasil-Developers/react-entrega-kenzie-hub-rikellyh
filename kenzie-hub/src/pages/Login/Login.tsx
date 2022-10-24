@@ -2,7 +2,7 @@ import { Button, Form, Input } from "../../components/Form/style";
 import Container from "../../styles/LoginStyle";
 import lottie from "lottie-web";
 import { Link } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "../../validations/login";
@@ -14,23 +14,18 @@ export interface iLoginFormData {
 }
 
 const Login = () => {
-  const { loginApi } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const { loginApi, loading } = useContext(AuthContext);
 
   const {
     register,
     handleSubmit,
-    // eslint-disable-next-line no-unused-vars
-    reset,
     formState: { errors },
   } = useForm<iLoginFormData>({
     resolver: yupResolver(loginValidation),
   });
 
   const submit: SubmitHandler<iLoginFormData> = (data) => {
-    loginApi(data, setLoading, () => {
-      reset();
-    });
+    loginApi(data);
   };
 
   useEffect(() => {

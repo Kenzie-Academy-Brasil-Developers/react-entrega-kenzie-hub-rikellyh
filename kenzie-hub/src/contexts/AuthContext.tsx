@@ -1,13 +1,39 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { iRegisterFormData } from "../pages/Register/Register";
 import { toast } from "react-toastify";
 import api from "../services/api";
+import { iLoginFormData } from "../pages/Login/Login";
+import { iList } from "./DashboardContext";
 
-export const AuthContext = createContext({});
+interface IUserProviderProps {
+  children: ReactNode;
+}
+export interface iUser {
+  id: string;
+  name: string;
+  email: string;
+  course_module: string;
+  bio: string;
+  contact: string;
+  techs: iList;
+}
+interface IUserContextData {
+  user: iUser | null;
+  loginApi: (data: iLoginFormData) => void;
+  userLogout: () => void;
+  registerApi: (data: iRegisterFormData) => Promise<void>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState();
+export const AuthContext = createContext<IUserContextData>(
+  {} as IUserContextData
+);
+
+export const AuthProvider = ({ children }: IUserProviderProps) => {
+  const [user, setUser] = useState<iUser | null>(null);
+  const [loading, setLoading] = useState(false);
   const backPage = useNavigate();
   const location = useLocation();
 
@@ -34,36 +60,18 @@ export const AuthProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const registerApi = ({
-    name,
-    email,
-    password,
-    bio,
-    contact,
-    course_module,
-  }) => {
-    const data = {
-      name,
-      email,
-      password,
-      bio,
-      contact,
-      course_module,
-    };
+  const registerApi = async (data: iRegisterFormData) => {
     try {
-      const response = api.post("users", data);
-      registerSucess(response);
+      const response = await api.post("users", data);
+      toast.success(response.data.message);
     } catch (error) {
       toast.error("Ops! Algo deu errado 👀");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const registerSucess = () => {
-    toast.success("Conta criada com sucesso!");
-    setTimeout(() => backPage("/"), 4500);
-  };
-
-  async function loginApi(data, setLoading) {
+  const loginApi = async (data: iLoginFormData) => {
     try {
       setLoading(true);
 
@@ -84,9 +92,9 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const userLogout = () => {
+  const userLogout = (): void => {
     setUser(null);
     localStorage.clear();
     backPage("/");
@@ -94,7 +102,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ loginApi, registerApi, loading, user, userLogout }}
+      value={{ loginApi, registerApi, loading, user, userLogout, setLoading }}
     >
       {children}
     </AuthContext.Provider>
