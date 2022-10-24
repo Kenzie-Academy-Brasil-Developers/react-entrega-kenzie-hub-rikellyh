@@ -17,6 +17,9 @@ interface IDashboardContext {
   deletTech: (id: string) => void;
   removeTech: (id: string) => void;
   list: iList[];
+  openModal: () => void;
+  closeModal: () => void;
+  modalIsOpen: boolean;
 }
 
 export const DashboardContext = createContext<IDashboardContext>(
@@ -25,6 +28,7 @@ export const DashboardContext = createContext<IDashboardContext>(
 
 export const DashboardProvider = ({ children }: iDefaultContextProps) => {
   const [list, setList] = useState([] as iList[]);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -42,25 +46,19 @@ export const DashboardProvider = ({ children }: iDefaultContextProps) => {
   }, []);
 
   const newTech = async (data: iList) => {
-    try {
-      const newData = [
-        ...list,
-        {
-          id: data.id,
-          title: data.title,
-          status: data.status,
-        },
-      ];
+    console.log(data);
 
-      await api.post("users/techs", {
-        list: newData,
-      });
+    try {
+      const response = await api.post("users/techs", data);
+
+      console.log(response);
 
       toast.success("GG! Tecnologia adicionada com sucesso! ✨");
 
-      setList(newData);
+      setList([...list, response.data]);
     } catch (error) {
       console.log(error);
+      toast.error("Parece que não deu certo 😯");
     }
   };
 
@@ -79,6 +77,14 @@ export const DashboardProvider = ({ children }: iDefaultContextProps) => {
     setList(update);
   }
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <DashboardContext.Provider
       value={{
@@ -86,6 +92,9 @@ export const DashboardProvider = ({ children }: iDefaultContextProps) => {
         deletTech,
         removeTech,
         list,
+        openModal,
+        closeModal,
+        modalIsOpen,
       }}
     >
       {children}
