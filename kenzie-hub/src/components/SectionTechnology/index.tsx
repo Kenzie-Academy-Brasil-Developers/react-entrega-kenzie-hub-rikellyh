@@ -14,10 +14,8 @@ export interface iListProps {
 }
 
 const BoxTechnology = ({ list }: iListProps) => {
-  const { newTech, removeTech } = useContext(DashboardContext);
-
-  const onRequestCloseF = (event: React.MouseEvent | React.KeyboardEvent) => {};
-  const onAfterCloseF = () => {};
+  const { newTech, removeTech, openModal, modalIsOpen, closeModal } =
+    useContext(DashboardContext);
 
   const customStyles: ReactModal.Styles = {
     content: {
@@ -41,13 +39,13 @@ const BoxTechnology = ({ list }: iListProps) => {
     <SectionTechnology>
       <div className="add__Technology">
         <h2>Tecnologias</h2>
-        <button onClick={onAfterCloseF} type="button">
+        <button onClick={openModal} type="button">
           +
         </button>
       </div>
       <ReactModal
-        isOpen={true}
-        onRequestClose={onRequestCloseF}
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
         contentLabel="Example Modal"
         overlayClassName="modal-overlay"
         className="modal__Form"
@@ -57,7 +55,7 @@ const BoxTechnology = ({ list }: iListProps) => {
         <Modal>
           <AddTechnology>
             <h3>Cadastrar Tecnologia</h3>
-            <button onClick={onRequestCloseF}>X</button>
+            <button onClick={closeModal}>X</button>
           </AddTechnology>
           <Form onSubmit={handleSubmit(newTech)}>
             <div className="addTech-Form">
