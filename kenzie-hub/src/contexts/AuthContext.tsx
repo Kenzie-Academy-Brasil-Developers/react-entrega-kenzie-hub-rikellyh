@@ -65,7 +65,9 @@ export const AuthProvider = ({ children }: IUserProviderProps) => {
       await api.post("users", data);
       toast.success("Cadastro efetuado com sucesso! 🤩");
     } catch (error) {
-      toast.error("Ops! Algo deu errado 👀");
+      toast.error("Ops! Algo deu errado 👀", {
+        toastId: 1,
+      });
     } finally {
       setLoading(false);
     }
