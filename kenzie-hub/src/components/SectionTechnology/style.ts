@@ -58,14 +58,8 @@ const SectionTechnology = styled.div`
         font-size: 0.95rem;
         line-height: 1.25rem;
       }
-
-      svg {
-        display: none;
-      }
     }
-  }
 
-  @media (min-width: 1000px) {
     #remove {
       display: block;
       cursor: pointer;
