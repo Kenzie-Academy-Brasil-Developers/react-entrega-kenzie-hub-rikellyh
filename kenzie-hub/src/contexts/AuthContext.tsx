@@ -62,8 +62,8 @@ export const AuthProvider = ({ children }: IUserProviderProps) => {
 
   const registerApi = async (data: iRegisterFormData) => {
     try {
-      const response = await api.post("users", data);
-      toast.success(response.data.message);
+      await api.post("users", data);
+      toast.success("Cadastro efetuado com sucesso! 🤩");
     } catch (error) {
       toast.error("Ops! Algo deu errado 👀");
     } finally {
